@@ -180,22 +180,60 @@ to match.
 
 ## The contact form
 
-The site is static, so there is no server to receive a form post. The form
-builds a message and offers two ways to send it:
+`contact.php` receives the form and mails it to the address in `config.js`
+(`info@tafolliglass.com`). It needs a host that runs PHP — DreamHost does,
+GitHub Pages does not.
 
-* **Dërgo kërkesën** opens the visitor's mail client addressed to `SITE.email`.
-* **Shkruaj në WhatsApp** opens WhatsApp with the same message prefilled.
+The form posts in the background, so the visitor stays on the page and sees a
+confirmation in their own language. If the request fails — no PHP on the host,
+the script missing, mail refused — the page falls back to opening the
+visitor's mail client with the same message prefilled, and says so. Set
+`formEndpoint: ""` in `config.js` to always use that fallback.
 
-If you would rather receive submissions by HTTP, point the form at a service
-such as Formspree or Web3Forms: give `<form id="quoteForm">` an `action` and
-`method="POST"` and remove the `e.preventDefault()` in `initForm()` in
-`assets/js/app.js`.
+`contact.php` protects itself in three ways: it only answers `POST`, it strips
+newlines out of anything that reaches a mail header (so the form cannot be
+used to inject a `Bcc:`), and it carries a honeypot — a hidden `company`
+field that people never see. Anything that fills it in is a bot, and the
+script accepts the submission and silently drops it.
 
----
+To receive submissions somewhere else instead, point `formEndpoint` at a
+service such as Formspree or Web3Forms; the form already posts `FormData`,
+which is what they expect.
+
+## The animated sections
+
+Three of them, each driven from `i18n.js` so they translate with the rest:
+
+* **Thickness (`#trashesia`)** — the glass edge grows and shrinks against a
+  millimetre ruler, from 4 to 10 mm. The scale is `PX_PER_MM` in `app.js`;
+  the options are the `THICKS` array, and each needs a matching
+  `thick.<mm>.d` text.
+* **Insulated unit (`#termopan`)** — the interactive WebGL model.
+* **Four seasons (`#stinet`)** — a window in cross-section with weather,
+  temperatures and the heat flow bouncing off the pane. It cycles every 5.2
+  seconds, pauses when scrolled out of view, and stops as soon as a visitor
+  picks a season. Temperatures live in `SEASON_TEMP` in `app.js`.
+
+## The gallery
+
+Eight photos, each opening in a lightbox with keyboard arrows, swipe and
+Escape. Four are brand images from AXE Media, four are workshop and product
+photos from the company's Facebook page; Facebook only serves them at the
+size in the gallery, so the lightbox enlarges them at most 1.8x rather than
+blowing them up into mush.
+
+To add a photo: drop the file in `assets/img/`, copy one `<figure>` block in
+the gallery in `index.html`, point `data-full`, `src` and `data-cap` at it,
+and add the matching `gallery.N.c` caption to all four languages in
+`i18n.js`. The lightbox picks it up automatically.
 
 ## Before going live
 
 - [ ] Confirm the phone numbers and opening hours.
 - [ ] Check the warranty wording in the texts matches what the company offers.
 - [ ] Replace the indicative Ug / Rw / g values with supplier figures.
+- [ ] Send one test message through the contact form once the site is on
+      DreamHost, and confirm it reaches info@tafolliglass.com.
+- [ ] Add more workshop photos — the four from Facebook are only as sharp
+      as Facebook serves them.
 - [ ] Add the Instagram link in `config.js` if there is one.

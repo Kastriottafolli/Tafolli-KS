@@ -321,7 +321,8 @@
 
     function compose() {
       var fd = new FormData(form);
-      var prodKey = "products." + (fd.get("product") || "1") + ".t";
+      var prod = fd.get("product") || "1";
+      var prodKey = prod === "other" ? "contact.f.other" : "products." + prod + ".t";
       var L = [
         t("contact.title"),
         "",
@@ -344,6 +345,18 @@
     form.addEventListener("input", sync);
     sync();
 
+    function mailtoFallback(subject) {
+      location.href = "mailto:" + S.email + "?subject=" + encodeURIComponent(subject) +
+                      "&body=" + encodeURIComponent(compose());
+    }
+
+    function status(msgKey, isError) {
+      var ok = $("#formOk");
+      ok.querySelector("span").textContent = t(msgKey);
+      ok.classList.toggle("is-err", !!isError);
+      ok.classList.add("is-on");
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var name = form.elements.name, phone = form.elements.phone;
@@ -351,12 +364,240 @@
       if (!phone.value.trim()) { phone.focus(); return; }
 
       var subject = S.brand + " — " + t("nav.cta") + " (" + lang.toUpperCase() + ")";
-      location.href = "mailto:" + S.email + "?subject=" + encodeURIComponent(subject) +
-                      "&body=" + encodeURIComponent(compose());
+      var btn = form.querySelector('button[type="submit"]');
+      var label = btn.querySelector("span");
+      var labelText = label.textContent;
 
-      var ok = $("#formOk");
-      ok.querySelector("span").textContent = t("contact.sub");
-      ok.classList.add("is-on");
+      // No endpoint configured (or no PHP on the host): hand it to the mail client.
+      if (!S.formEndpoint) { mailtoFallback(subject); status("contact.f.okmsg"); return; }
+
+      var fd = new FormData(form);
+      fd.append("subject", subject);
+      fd.append("lang", lang);
+      fd.append("productLabel", t("products." + (fd.get("product") || "1") + ".t"));
+      if (fd.get("product") === "other") fd.set("productLabel", t("contact.f.other"));
+      fd.append("body", compose());
+
+      btn.setAttribute("aria-busy", "true");
+      label.textContent = t("contact.f.sending");
+
+      fetch(S.formEndpoint, { method: "POST", body: fd, headers: { "Accept": "application/json" } })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error("HTTP " + r.status)); })
+        .then(function (d) {
+          if (!d || d.ok !== true) throw new Error(d && d.error ? d.error : "rejected");
+          form.reset(); sync();
+          status("contact.f.okmsg");
+        })
+        .catch(function () {
+          status("contact.f.errmsg", true);
+          mailtoFallback(subject);
+        })
+        .finally(function () {
+          btn.removeAttribute("aria-busy");
+          label.textContent = labelText;
+        });
+    });
+  }
+
+  /* ---------- 11. Glass thickness ---------- */
+  var THICKS = [4, 5, 6, 8, 10];
+  var PX_PER_MM = 14;
+
+  function initThickness() {
+    var seg = $("#thickSeg");
+    if (!seg) return;
+
+    // ruler ticks: one per mm up to the largest option
+    var ruler = $("#thickRuler");
+    if (ruler && !ruler.childElementCount) {
+      var maxMm = THICKS[THICKS.length - 1];
+      for (var mm = 0; mm <= maxMm; mm++) {
+        var tick = document.createElement("i");
+        tick.style.bottom = (mm * PX_PER_MM) + "px";
+        tick.style.width = (mm % 2 === 0) ? "16px" : "9px";
+        if (mm % 2 === 0) tick.setAttribute("data-major", "");
+        ruler.appendChild(tick);
+        if (mm % 2 === 0 && mm > 0) {
+          var lab = document.createElement("span");
+          lab.textContent = mm;
+          lab.style.bottom = (mm * PX_PER_MM - 6) + "px";
+          ruler.appendChild(lab);
+        }
+      }
+      ruler.style.height = (maxMm * PX_PER_MM + 20) + "px";
+    }
+
+    function show(mm) {
+      $("#thickSlab").style.setProperty("--t", (mm * PX_PER_MM) + "px");
+      $("#thickVal").textContent = mm;
+      $("#thickDim").textContent = mm + " mm";
+      $("#thickDesc").textContent = t("thick." + mm + ".d");
+      $$("#thickSeg button").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(+b.dataset.mm === mm));
+      });
+      seg.dataset.mm = mm;
+    }
+
+    $$("#thickSeg button").forEach(function (b) {
+      b.addEventListener("click", function () { show(+b.dataset.mm); });
+    });
+    show(6);
+    document.addEventListener("tg:lang", function () { show(+seg.dataset.mm || 6); });
+  }
+
+  /* ---------- 12. Four seasons ---------- */
+  var SEASON_TEMP = { 1: ["+14°", "21°"], 2: ["+32°", "22°"], 3: ["+9°", "21°"], 4: ["−12°", "22°"] };
+
+  function initSeasons() {
+    var box = $("#seasons");
+    if (!box) return;
+
+    // weather particles, scattered once
+    var mk = function (sel, n, build) {
+      var host = $(sel, box);
+      if (!host || host.childElementCount) return;
+      for (var i = 0; i < n; i++) host.appendChild(build(i));
+    };
+    var drop = function () {
+      var el = document.createElement("i");
+      el.style.left = (Math.random() * 100) + "%";
+      el.style.top = (-10 - Math.random() * 30) + "%";
+      el.style.animationDuration = (0.55 + Math.random() * 0.5) + "s";
+      el.style.animationDelay = (-Math.random() * 2) + "s";
+      return el;
+    };
+    var floaty = function () {
+      var el = document.createElement("i");
+      el.style.left = (Math.random() * 100) + "%";
+      el.style.top = (-10 - Math.random() * 30) + "%";
+      el.style.animationDuration = (4 + Math.random() * 4) + "s";
+      el.style.animationDelay = (-Math.random() * 6) + "s";
+      return el;
+    };
+    mk(".wx--rain", 34, drop);
+    mk(".wx--snow", 26, floaty);
+    mk(".wx--leaf", 12, floaty);
+
+    function show(n) {
+      box.dataset.season = n;
+      $("#seasonName").textContent = t("seasons." + n + ".n");
+      $("#seasonDesc").textContent = t("seasons." + n + ".d");
+      $("#tOut").textContent = SEASON_TEMP[n][0];
+      $("#tIn").textContent = SEASON_TEMP[n][1];
+      $$("#seasonSeg button").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(+b.dataset.season === n));
+      });
+    }
+
+    $$("#seasonSeg button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        show(+b.dataset.season);
+        var auto = $("#seasonAuto");
+        if (auto) { auto.checked = false; stop(); }
+      });
+    });
+
+    var timer = null;
+    function stop() { clearInterval(timer); timer = null; }
+    function start() {
+      if (timer || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      timer = setInterval(function () {
+        show((+box.dataset.season % 4) + 1);
+      }, 5200);
+    }
+    var auto = $("#seasonAuto");
+    if (auto) auto.addEventListener("change", function () { auto.checked ? start() : stop(); });
+
+    // only cycle while the section is actually on screen
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting && auto && auto.checked) start(); else stop();
+      }, { threshold: 0.25 }).observe(box);
+    } else { start(); }
+
+    show(2);
+    document.addEventListener("tg:lang", function () { show(+box.dataset.season || 2); });
+  }
+
+  /* ---------- 13. Lightbox ---------- */
+  function initLightbox() {
+    var lb = $("#lb");
+    if (!lb) return;
+    var btns = $$("#gal .gal__btn");
+    if (!btns.length) return;
+    var idx = 0, lastFocus = null;
+
+    var MAX_UPSCALE = 1.8;   // past this, a small photo just looks blurry
+
+    function fit() {
+      var img = $("#lbImg");
+      if (!img.naturalWidth) return;
+      var s = Math.min(
+        MAX_UPSCALE,
+        (window.innerWidth * 0.92) / img.naturalWidth,
+        (window.innerHeight * 0.72) / img.naturalHeight
+      );
+      img.style.width = Math.round(img.naturalWidth * s) + "px";
+    }
+
+    function render() {
+      var b = btns[idx], img = $("#lbImg");
+      img.style.width = "";
+      img.src = b.dataset.full;
+      img.alt = t(b.dataset.cap);
+      if (img.complete) fit(); else img.onload = fit;
+      $("#lbCap").textContent = t(b.dataset.cap);
+      $("#lbCount").textContent = (idx + 1) + " / " + btns.length;
+    }
+    window.addEventListener("resize", function () {
+      if (lb.classList.contains("is-open")) fit();
+    });
+    function open(i) {
+      idx = i; lastFocus = document.activeElement;
+      render();
+      lb.classList.add("is-open");
+      lb.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      $("#lbClose").focus();
+    }
+    function close() {
+      lb.classList.remove("is-open");
+      lb.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      if (lastFocus) lastFocus.focus();
+    }
+    var step = function (d) { idx = (idx + d + btns.length) % btns.length; render(); };
+
+    btns.forEach(function (b, i) { b.addEventListener("click", function () { open(i); }); });
+    $("#lbClose").addEventListener("click", close);
+    $("#lbPrev").addEventListener("click", function () { step(-1); });
+    $("#lbNext").addEventListener("click", function () { step(1); });
+    lb.addEventListener("click", function (e) {
+      // only the backdrop closes — not the image, the caption or the controls
+      if (e.target.closest(".lb__fig, .lb__nav, .lb__x")) return;
+      close();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (!lb.classList.contains("is-open")) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") step(-1);
+      else if (e.key === "ArrowRight") step(1);
+      else if (e.key === "Tab") { e.preventDefault(); $("#lbClose").focus(); }
+    });
+
+    // swipe on touch
+    var x0 = null;
+    lb.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener("touchend", function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 55) step(dx < 0 ? 1 : -1);
+      x0 = null;
+    });
+
+    document.addEventListener("tg:lang", function () {
+      if (lb.classList.contains("is-open")) render();
     });
   }
 
@@ -368,6 +609,9 @@
     initCards();
     initFaq();
     initForm();
+    initThickness();
+    initSeasons();
+    initLightbox();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

@@ -15,13 +15,20 @@ window.SITE = {
   //         one of sq / en / de / fr. A saved choice or ?lang= always wins.
   autoDetectLanguage: false,
 
+  // Where the quote form posts. "contact.php" is the small PHP script in this
+  // repository, which mails the request to `email` above — it needs a host
+  // that runs PHP (DreamHost does; GitHub Pages does not).
+  // If the request fails, the form falls back to opening the visitor's mail
+  // client. Set to "" to always use that fallback.
+  formEndpoint: "contact.php",
+
   // --- Contact -------------------------------------------------
   phonePrimary:   "+383 44 602 211",
   phonePrimaryTel: "+38344602211",
   phoneSecondary: "+383 49 602 211",
   phoneSecondaryTel: "+38349602211",
   whatsapp:       "38344602211",          // without "+"
-  email:          "info@tafolliglass.net",
+  email:          "info@tafolliglass.com",
   // --- Location ------------------------------------------------
   street:   "Rr. Fadil Kabashi nr. 177",
   village:  "Sopijë",

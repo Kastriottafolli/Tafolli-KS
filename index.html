@@ -64,6 +64,7 @@
   <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
   <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5a15 15 0 0 1 0 19 15 15 0 0 1 0-19z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
   <symbol id="i-drag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-3 3 3 3M15 6l3 3-3 3"/><path d="M4 9h16"/><circle cx="12" cy="17" r="3"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5" stroke-width="1.7"/><path d="M8 12.4l2.6 2.6L16 9.6"/></symbol>
@@ -80,12 +81,11 @@
 
     <nav class="nav__links" id="navlinks" aria-label="Primary">
       <a href="#produktet" data-i18n="nav.products"></a>
+      <a href="#trashesia" data-i18n="nav.thickness"></a>
       <a href="#termopan" data-i18n="nav.tech3d"></a>
+      <a href="#stinet" data-i18n="nav.seasons"></a>
       <a href="#teknologjia" data-i18n="nav.tech"></a>
-      <a href="#pse" data-i18n="nav.why"></a>
-      <a href="#procesi" data-i18n="nav.process"></a>
       <a href="#galeria" data-i18n="nav.gallery"></a>
-      <a href="#pyetjet" data-i18n="nav.faq"></a>
     </nav>
 
     <div class="nav__right">
@@ -110,7 +110,9 @@
 
 <div class="drawer" id="drawer">
   <a href="#produktet" data-i18n="nav.products"></a>
+  <a href="#trashesia" data-i18n="nav.thickness"></a>
   <a href="#termopan" data-i18n="nav.tech3d"></a>
+  <a href="#stinet" data-i18n="nav.seasons"></a>
   <a href="#teknologjia" data-i18n="nav.tech"></a>
   <a href="#pse" data-i18n="nav.why"></a>
   <a href="#procesi" data-i18n="nav.process"></a>
@@ -177,6 +179,43 @@
   </div>
 </section>
 
+<!-- ============ GLASS THICKNESS ============ -->
+<section class="sec sec--soft" id="trashesia">
+  <div class="wrap">
+    <div class="sec-head sec-head--center reveal">
+      <span class="kicker" data-i18n="thick.kicker"></span>
+      <h2 class="h-sec" data-i18n="thick.title"></h2>
+      <p class="sub-sec" data-i18n="thick.sub"></p>
+    </div>
+
+    <div class="thick reveal">
+      <div class="thick__stage">
+        <div class="thick__ruler" id="thickRuler" aria-hidden="true"></div>
+        <div class="slab" id="thickSlab" style="--t:84px">
+          <div class="slab__top"></div>
+          <div class="slab__edge"><i class="slab__gloss"></i></div>
+          <div class="slab__dim"><span id="thickDim">6 mm</span></div>
+        </div>
+        <span class="thick__scale" data-i18n="thick.scale"></span>
+      </div>
+
+      <div class="thick__panel">
+        <span class="thick__pick" data-i18n="thick.pick"></span>
+        <div class="seg seg--light" role="group" id="thickSeg">
+          <button type="button" data-mm="4"  aria-pressed="false">4</button>
+          <button type="button" data-mm="5"  aria-pressed="false">5</button>
+          <button type="button" data-mm="6"  aria-pressed="true">6</button>
+          <button type="button" data-mm="8"  aria-pressed="false">8</button>
+          <button type="button" data-mm="10" aria-pressed="false">10</button>
+        </div>
+        <div class="thick__big"><span id="thickVal">6</span><b>mm</b></div>
+        <h3 class="thick__use" data-i18n="thick.use"></h3>
+        <p class="thick__desc" id="thickDesc"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ 3D GLAZING ============ -->
 <section class="sec sec--dark" id="termopan">
   <div class="wrap">
@@ -231,6 +270,46 @@
           <div class="spec__row"><span class="spec__k" data-i18n="t3d.spec.weight"></span><span class="spec__v" id="specW">30<b>kg</b></span></div>
           <p class="spec__note" data-i18n="t3d.spec.note"></p>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOUR SEASONS GLASS ============ -->
+<section class="sec" id="stinet">
+  <div class="wrap">
+    <div class="sec-head sec-head--center reveal">
+      <span class="kicker" data-i18n="seasons.kicker"></span>
+      <h2 class="h-sec" data-i18n="seasons.title"></h2>
+      <p class="sub-sec" data-i18n="seasons.sub"></p>
+    </div>
+
+    <div class="seasons reveal" id="seasons" data-season="2">
+      <div class="seasons__stage" aria-hidden="true">
+        <div class="sky"></div>
+        <div class="sun"></div>
+        <div class="wx wx--rain"></div>
+        <div class="wx wx--snow"></div>
+        <div class="wx wx--leaf"></div>
+        <div class="flowline flowline--sun"></div>
+        <div class="flowline flowline--heat"></div>
+        <div class="pane"><i class="pane__gloss"></i></div>
+        <div class="room"></div>
+        <div class="badge-t badge-t--out"><small data-i18n="seasons.out"></small><b id="tOut">+32°</b></div>
+        <div class="badge-t badge-t--in"><small data-i18n="seasons.in"></small><b id="tIn">22°</b></div>
+      </div>
+
+      <div class="seasons__panel">
+        <div class="seg seg--light seg--wrap" role="group" id="seasonSeg">
+          <button type="button" data-season="1" aria-pressed="false" data-i18n="seasons.1.n"></button>
+          <button type="button" data-season="2" aria-pressed="true"  data-i18n="seasons.2.n"></button>
+          <button type="button" data-season="3" aria-pressed="false" data-i18n="seasons.3.n"></button>
+          <button type="button" data-season="4" aria-pressed="false" data-i18n="seasons.4.n"></button>
+        </div>
+        <h3 class="seasons__name" id="seasonName"></h3>
+        <p class="seasons__desc" id="seasonDesc"></p>
+        <label class="toggle toggle--light"><input type="checkbox" id="seasonAuto" checked><span class="track"></span><span data-i18n="seasons.auto"></span></label>
+        <p class="seasons__note" data-i18n="seasons.note"></p>
       </div>
     </div>
   </div>
@@ -297,11 +376,15 @@
       <h2 class="h-sec" data-i18n="gallery.title"></h2>
       <p class="sub-sec" data-i18n="gallery.sub"></p>
     </div>
-    <div class="gal">
-      <figure class="reveal"><img src="assets/img/social-2.jpg" alt="Tafolli Glass" loading="lazy" width="1600" height="1600"></figure>
-      <figure class="reveal reveal-d1"><img src="assets/img/social-5.jpg" alt="Tafolli Glass" loading="lazy" width="1600" height="1600"></figure>
-      <figure class="reveal reveal-d2"><img src="assets/img/social-4.jpg" alt="Tafolli Glass" loading="lazy" width="1600" height="1600"></figure>
-      <figure class="reveal reveal-d3"><img src="assets/img/social-3.jpg" alt="Tafolli Glass" loading="lazy" width="1600" height="1600"></figure>
+    <div class="gal" id="gal">
+      <figure class="reveal"><button type="button" class="gal__btn" data-full="assets/img/social-2.jpg" data-cap="gallery.1.c"><img src="assets/img/social-2.jpg" alt="" loading="lazy" width="1600" height="1600"><span class="gal__zoom" data-i18n="gallery.open" data-i18n-attr="aria-label"></span></button><figcaption data-i18n="gallery.1.c"></figcaption></figure>
+      <figure class="reveal reveal-d1"><button type="button" class="gal__btn" data-full="assets/img/social-5.jpg" data-cap="gallery.2.c"><img src="assets/img/social-5.jpg" alt="" loading="lazy" width="1600" height="1600"><span class="gal__zoom" data-i18n="gallery.open" data-i18n-attr="aria-label"></span></button><figcaption data-i18n="gallery.2.c"></figcaption></figure>
+      <figure class="reveal reveal-d2"><button type="button" class="gal__btn" data-full="assets/img/social-4.jpg" data-cap="gallery.3.c"><img src="assets/img/social-4.jpg" alt="" loading="lazy" width="1600" height="1600"><span class="gal__zoom" data-i18n="gallery.open" data-i18n-attr="aria-label"></span></button><figcaption data-i18n="gallery.3.c"></figcaption></figure>
+      <figure class="reveal reveal-d3"><button type="button" class="gal__btn" data-full="assets/img/social-3.jpg" data-cap="gallery.4.c"><img src="assets/img/social-3.jpg" alt="" loading="lazy" width="1600" height="1600"><span class="gal__zoom" data-i18n="gallery.open" data-i18n-attr="aria-label"></span></button><figcaption data-i18n="gallery.4.c"></figcaption></figure>
+      <figure class="reveal"><button type="button" class="gal__btn" data-full="assets/img/work-01-dekor.jpg" data-cap="gallery.5.c"><img src="assets/img/work-01-dekor.jpg" alt="" loading="lazy" width="320" height="239"><span class="gal__zoom" data-i18n="gallery.open" data-i18n-attr="aria-label"></span></button><figcaption data-i18n="gallery.5.c"></figcaption></figure>
+      <figure class="reveal reveal-d1"><button type="button" class="gal__btn" data-full="assets/img/work-02-gdhendje.jpg" data-cap="gallery.6.c"><img src="assets/img/work-02-gdhendje.jpg" alt="" loading="lazy" width="440" height="590"><span class="gal__zoom" data-i18n="gallery.open" data-i18n-attr="aria-label"></span></button><figcaption data-i18n="gallery.6.c"></figcaption></figure>
+      <figure class="reveal reveal-d2"><button type="button" class="gal__btn" data-full="assets/img/work-03-punishtja.jpg" data-cap="gallery.7.c"><img src="assets/img/work-03-punishtja.jpg" alt="" loading="lazy" width="440" height="590"><span class="gal__zoom" data-i18n="gallery.open" data-i18n-attr="aria-label"></span></button><figcaption data-i18n="gallery.7.c"></figcaption></figure>
+      <figure class="reveal reveal-d3"><button type="button" class="gal__btn" data-full="assets/img/work-04-transporti.jpg" data-cap="gallery.8.c"><img src="assets/img/work-04-transporti.jpg" alt="" loading="lazy" width="590" height="441"><span class="gal__zoom" data-i18n="gallery.open" data-i18n-attr="aria-label"></span></button><figcaption data-i18n="gallery.8.c"></figcaption></figure>
     </div>
     <div style="text-align:center;margin-top:36px" class="reveal">
       <a class="btn btn--ghost" id="galFb" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-fb"/></svg><span data-i18n="gallery.follow"></span></a>
@@ -353,10 +436,12 @@
               <option value="4" data-i18n="products.4.t"></option>
               <option value="5" data-i18n="products.5.t"></option>
               <option value="6" data-i18n="products.6.t"></option>
+              <option value="other" data-i18n="contact.f.other"></option>
             </select>
           </div>
         </div>
         <div class="field"><label for="f-msg" data-i18n="contact.f.msg"></label><textarea id="f-msg" name="message" data-i18n="contact.f.msgph" data-i18n-attr="placeholder"></textarea></div>
+        <input type="text" name="company" id="f-company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="form__actions">
           <button class="btn btn--primary" type="submit"><span data-i18n="contact.f.send"></span><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
           <a class="btn btn--wa" id="formWa" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg><span data-i18n="contact.f.wa"></span></a>
@@ -426,6 +511,16 @@
     </div>
   </div>
 </footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-hidden="true">
+  <button class="lb__x"  id="lbClose" data-i18n="gallery.close" data-i18n-attr="aria-label"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+  <button class="lb__nav lb__nav--prev" id="lbPrev" data-i18n="gallery.prev" data-i18n-attr="aria-label"><svg aria-hidden="true"><use href="#i-chev"/></svg></button>
+  <button class="lb__nav lb__nav--next" id="lbNext" data-i18n="gallery.next" data-i18n-attr="aria-label"><svg aria-hidden="true"><use href="#i-chev"/></svg></button>
+  <figure class="lb__fig">
+    <img id="lbImg" src="" alt="">
+    <figcaption><span id="lbCap"></span><span class="lb__count" id="lbCount"></span></figcaption>
+  </figure>
+</div>
 
 <div class="fabs">
   <button class="fab fab--top" id="toTop" aria-label="Top"><svg><use href="#i-up"/></svg></button>
