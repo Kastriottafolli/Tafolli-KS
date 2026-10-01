@@ -126,6 +126,11 @@
     set("#fFormer",function (e) { e.textContent = t("footer.former") + ": " + S.formerName; });
     set("#fPlace", function (e) { e.textContent = S.village + ", " + S.city + ", " + S.country; });
     set("#yr",     function (e) { e.textContent = new Date().getFullYear(); });
+
+    var A = S.author || {};
+    set("#byName", function (e) { e.href = A.url || "#"; e.textContent = A.name || ""; });
+    set("#byUrl",  function (e) { e.href = A.url || "#"; e.textContent = A.label || A.url || ""; });
+    set("#byMail", function (e) { e.href = "mailto:" + (A.email || ""); e.textContent = A.email || ""; });
   }
 
   /* ---------- 3. Structured data ---------- */
@@ -173,6 +178,18 @@
       makesOffer: [1, 2, 3, 4, 5, 6].map(function (n) {
         return { "@type": "Offer", itemOffered: { "@type": "Service", name: t("products." + n + ".t"), description: t("products." + n + ".d") } };
       })
+    }, {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: S.brand,
+      url: S.domain ? S.domain + "/" : abs("."),
+      inLanguage: SUPPORTED,
+      creator: S.author ? {
+        "@type": "Person",
+        name: S.author.name,
+        url: S.author.url,
+        email: S.author.email
+      } : undefined
     }, {
       "@context": "https://schema.org",
       "@type": "FAQPage",

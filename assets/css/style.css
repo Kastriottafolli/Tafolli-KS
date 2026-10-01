@@ -916,3 +916,12 @@ a.cinfo__item:hover{border-color:rgba(4,169,222,.45);background:rgba(4,169,222,.
 @media (prefers-reduced-motion:reduce){
   .slab__gloss,.pane__gloss,.wx i,.flowline,.sun{animation:none!important}
 }
+
+/* footer credit */
+.foot__by{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:#6f8599}
+.foot__by a{color:#9db4ca;transition:color .25s}
+.foot__by a:hover{color:var(--c-cyan-lt)}
+.foot__by span[aria-hidden]{opacity:.45}
+@media (max-width:620px){
+  .foot__bar{flex-direction:column;align-items:flex-start;gap:10px}
+}

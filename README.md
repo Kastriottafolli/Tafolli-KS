@@ -200,6 +200,13 @@ To receive submissions somewhere else instead, point `formEndpoint` at a
 service such as Formspree or Web3Forms; the form already posts `FormData`,
 which is what they expect.
 
+### The footer credit
+
+`config.js` carries an `author` block — name, e-mail, site and the label the
+link shows. It renders in the footer bar in all four languages
+("Faqja u realizua nga …" / "Website by …") and goes into the structured
+data as the site's `creator`. Change it there, not in the markup.
+
 ## The animated sections
 
 Three of them, each driven from `i18n.js` so they translate with the rest:

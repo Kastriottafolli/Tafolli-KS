@@ -41,6 +41,14 @@ window.SITE = {
   facebook: "https://www.facebook.com/tafolliglass",
   instagram: "", // TODO: add if available
 
+  // --- Credit shown in the footer -----------------------------
+  author: {
+    name:  "Kastriot Tafolli",
+    email: "info@tafolli.net",
+    url:   "https://www.tafolli.net",
+    label: "tafolli.net"           // how the link reads in the footer
+  },
+
   // --- Opening hours (24h) ------------------------------------
   hours: { weekdays: "08:00 – 17:30", saturday: "08:00 – 17:30", sunday: null, lunch: "12:00 – 13:00" }
 };
