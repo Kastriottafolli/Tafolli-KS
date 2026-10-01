@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tafolliglass.com/sitemap.xml
