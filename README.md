@@ -31,7 +31,7 @@ Google structured data at once.
 
 ```js
 phonePrimary: "+383 44 602 211",
-email:        "info@tafolliglass.com",   // ← confirm the real address
+email:        "info@tafolliglass.net",
 whatsapp:     "38344602211",
 ```
 
@@ -117,6 +117,40 @@ robots.txt, sitemap.xml
 
 ---
 
+## Hosting on GitHub Pages
+
+`.github/workflows/pages.yml` publishes the repository root to GitHub Pages on
+every push. The first run also switches Pages on for the repository, so no
+manual setup is needed — check **Actions** for the run and **Settings → Pages**
+for the resulting URL.
+
+Two files make it work:
+
+* `CNAME` holds the custom domain `www.tafolliglass.net`. GitHub reads it and
+  sets the domain automatically. Delete it to fall back to the
+  `*.github.io` address.
+* `.nojekyll` stops GitHub from running the files through Jekyll, which would
+  otherwise ignore any folder starting with an underscore.
+
+### DNS for www.tafolliglass.net
+
+At the registrar of `tafolliglass.net`, add:
+
+| Type | Name | Value |
+|---|---|---|
+| `CNAME` | `www` | `kastriottafolli.github.io` |
+
+To make the bare `tafolliglass.net` redirect to `www` as well, add four `A`
+records on `@` pointing at `185.199.108.153`, `185.199.109.153`,
+`185.199.110.153` and `185.199.111.153` (and the matching `AAAA` records if
+your registrar supports them).
+
+Until DNS resolves, the `*.github.io` URL redirects to the custom domain and
+will look broken — that is expected, not a deployment failure. Once the domain
+answers, tick **Enforce HTTPS** in Settings → Pages.
+
+---
+
 ## The contact form
 
 The site is static, so there is no server to receive a form post. The form
@@ -134,10 +168,8 @@ such as Formspree or Web3Forms: give `<form id="quoteForm">` an `action` and
 
 ## Before going live
 
-- [ ] Confirm the e-mail address in `config.js` (currently a placeholder).
+- [ ] Point the DNS of `www.tafolliglass.net` at GitHub Pages (see below).
 - [ ] Confirm the phone numbers and opening hours.
-- [ ] Replace `https://tafolliglass.com/` in `index.html`, `robots.txt` and
-      `sitemap.xml` with the real domain.
 - [ ] Check the warranty wording in the texts matches what the company offers.
 - [ ] Replace the indicative Ug / Rw / g values with supplier figures.
 - [ ] Add the Instagram link in `config.js` if there is one.

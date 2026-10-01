@@ -4,6 +4,7 @@
    ============================================================ */
 window.SITE = {
   brand: "Tafolli Glass",
+  domain: "https://www.tafolliglass.net",
   legalName: "TAFOLLI GLASS SH.P.K.",
   formerName: 'Fabrika e Xhamave "Teuta"',
   nui: "812363208",
@@ -20,7 +21,7 @@ window.SITE = {
   phoneSecondary: "+383 49 602 211",
   phoneSecondaryTel: "+38349602211",
   whatsapp:       "38344602211",          // without "+"
-  email:          "info@tafolliglass.com", // TODO: confirm with client
+  email:          "info@tafolliglass.net",
   // --- Location ------------------------------------------------
   street:   "Rr. Fadil Kabashi nr. 177",
   village:  "Sopijë",

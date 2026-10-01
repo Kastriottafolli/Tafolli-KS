@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://tafolliglass.com/</loc>
-    <xhtml:link rel="alternate" hreflang="sq" href="https://tafolliglass.com/?lang=sq"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://tafolliglass.com/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://tafolliglass.com/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://tafolliglass.com/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://tafolliglass.com/"/>
+    <loc>https://www.tafolliglass.net/</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://www.tafolliglass.net/?lang=sq"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tafolliglass.net/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.tafolliglass.net/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.tafolliglass.net/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tafolliglass.net/"/>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

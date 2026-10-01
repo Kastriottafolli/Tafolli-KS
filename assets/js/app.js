@@ -129,6 +129,12 @@
   }
 
   /* ---------- 3. Structured data ---------- */
+  function abs(path) {
+    // the live domain when configured, otherwise relative to this page
+    if (S.domain) return S.domain.replace(/\/$/, "") + "/" + String(path).replace(/^\.?\//, "");
+    try { return new URL(path, location.href).href; } catch (e) { return path; }
+  }
+
   function buildJsonLd() {
     var faq = [];
     for (var i = 1; i <= 7; i++) {
@@ -145,11 +151,11 @@
       legalName: S.legalName,
       alternateName: S.formerName,
       description: t("meta.desc"),
-      image: location.origin + "/assets/img/og-image.jpg",
-      logo: location.origin + "/assets/img/logo-tafolli-glass-dark.png",
+      image: abs("assets/img/og-image.jpg"),
+      logo: abs("assets/img/logo-tafolli-glass-dark.png"),
       telephone: S.phonePrimary,
       email: S.email,
-      url: location.origin + "/",
+      url: S.domain ? S.domain + "/" : abs("."),
       sameAs: [S.facebook].filter(Boolean),
       address: {
         "@type": "PostalAddress",
