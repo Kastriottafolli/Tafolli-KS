@@ -400,8 +400,8 @@
   }
 
   /* ---------- 11. Glass thickness ---------- */
-  var THICKS = [4, 5, 6, 8, 10];
-  var PX_PER_MM = 14;
+  var THICKS = [4, 5, 6, 8, 10, 12, 16, 20];
+  var PX_PER_MM = 11;
 
   function initThickness() {
     var seg = $("#thickSeg");
@@ -411,13 +411,15 @@
     var ruler = $("#thickRuler");
     if (ruler && !ruler.childElementCount) {
       var maxMm = THICKS[THICKS.length - 1];
+      // label every 4 mm once the scale gets long, otherwise every 2
+      var every = maxMm > 12 ? 4 : 2;
       for (var mm = 0; mm <= maxMm; mm++) {
         var tick = document.createElement("i");
         tick.style.bottom = (mm * PX_PER_MM) + "px";
-        tick.style.width = (mm % 2 === 0) ? "16px" : "9px";
-        if (mm % 2 === 0) tick.setAttribute("data-major", "");
+        tick.style.width = (mm % every === 0) ? "16px" : "9px";
+        if (mm % every === 0) tick.setAttribute("data-major", "");
         ruler.appendChild(tick);
-        if (mm % 2 === 0 && mm > 0) {
+        if (mm % every === 0 && mm > 0) {
           var lab = document.createElement("span");
           lab.textContent = mm;
           lab.style.bottom = (mm * PX_PER_MM - 6) + "px";

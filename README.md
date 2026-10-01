@@ -205,7 +205,7 @@ which is what they expect.
 Three of them, each driven from `i18n.js` so they translate with the rest:
 
 * **Thickness (`#trashesia`)** — the glass edge grows and shrinks against a
-  millimetre ruler, from 4 to 10 mm. The scale is `PX_PER_MM` in `app.js`;
+  millimetre ruler, from 4 to 20 mm. The scale is `PX_PER_MM` in `app.js`;
   the options are the `THICKS` array, and each needs a matching
   `thick.<mm>.d` text.
 * **Insulated unit (`#termopan`)** — the interactive WebGL model.
