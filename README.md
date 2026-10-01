@@ -151,6 +151,33 @@ tick **Enforce HTTPS**.
 
 ---
 
+## Hosting on DreamHost
+
+The repository root is the site. Two files support an Apache host:
+
+* `.htaccess` — forces `https://` and the `www` host (matching the canonical
+  URL), gzips the text assets, and sets cache headers. The vendored three.js
+  file is ~670 KB raw and about 170 KB gzipped, so the compression block is the
+  biggest single win on first load.
+* `deploy-dreamhost.sh` — one `rsync` over SSH. Fill in the shell user, the
+  server hostname and the web directory at the top, then run it after each
+  change.
+
+Steps the first time:
+
+1. In the DreamHost panel, add the domain under **Websites → Add Website**
+   (fully hosted), which creates the web directory.
+2. Point the domain's nameservers (or its `A` record) at DreamHost.
+3. Turn on the free Let's Encrypt certificate for the domain.
+4. Run `./deploy-dreamhost.sh`, or upload the files through the panel's file
+   manager.
+
+To serve the bare domain instead of `www`, swap the two redirect rules in
+`.htaccess` and change `<link rel="canonical">` and `og:url` in `index.html`
+to match.
+
+---
+
 ## The contact form
 
 The site is static, so there is no server to receive a form post. The form

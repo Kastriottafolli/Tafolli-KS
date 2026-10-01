@@ -1,0 +1,62 @@
+# ===========================================================
+#  Tafolli Glass — Apache configuration (DreamHost)
+#  Drop this in the web root next to index.html.
+# ===========================================================
+
+# ---- 1. Canonical host: https:// + www ---------------------
+# Matches the canonical URL in index.html. To serve the bare
+# domain instead, swap the two rules below and change the
+# <link rel="canonical"> and og:url tags to match.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # http -> https
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # tafolliglass.net -> www.tafolliglass.net
+  RewriteCond %{HTTP_HOST} ^tafolliglass\.net$ [NC]
+  RewriteRule ^ https://www.tafolliglass.net%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ---- 2. Compression ----------------------------------------
+# three.module.min.js is ~670 KB raw and about 170 KB gzipped,
+# so this is the single biggest win on first load.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ---- 3. Caching --------------------------------------------
+# The HTML stays uncached so edits appear immediately; the
+# fingerprint-free assets get a week, which is safe because
+# they only change when you re-upload them.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                          "access plus 1 week"
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType text/css                  "access plus 1 week"
+  ExpiresByType application/javascript    "access plus 1 week"
+  ExpiresByType image/jpeg                "access plus 1 month"
+  ExpiresByType image/png                 "access plus 1 month"
+  ExpiresByType image/svg+xml             "access plus 1 month"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ---- 4. Correct types --------------------------------------
+AddType application/javascript .js .mjs
+AddType image/svg+xml          .svg
+AddDefaultCharset UTF-8
+
+# ---- 5. Tidy -----------------------------------------------
+Options -Indexes
+ErrorDocument 404 /index.html
