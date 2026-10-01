@@ -119,35 +119,35 @@ robots.txt, sitemap.xml
 
 ## Hosting on GitHub Pages
 
-`.github/workflows/pages.yml` publishes the repository root to GitHub Pages on
-every push. The first run also switches Pages on for the repository, so no
-manual setup is needed — check **Actions** for the run and **Settings → Pages**
-for the resulting URL.
+The repository root *is* the site, so Pages can serve it directly with no
+build step and no workflow:
 
-Two files make it work:
+**Settings → Pages → Source: "Deploy from a branch" → Branch `main`, folder
+`/ (root)` → Save.**
 
-* `CNAME` holds the custom domain `www.tafolliglass.net`. GitHub reads it and
-  sets the domain automatically. Delete it to fall back to the
-  `*.github.io` address.
-* `.nojekyll` stops GitHub from running the files through Jekyll, which would
-  otherwise ignore any folder starting with an underscore.
+After a minute the site is live at
+`https://kastriottafolli.github.io/Tafolli-KS/`. Every push to `main`
+republishes it.
 
-### DNS for www.tafolliglass.net
+`.nojekyll` tells GitHub to serve the files as they are instead of running
+them through Jekyll.
 
-At the registrar of `tafolliglass.net`, add:
+### Adding the custom domain later
+
+Type the domain into the same Settings → Pages screen — GitHub commits the
+`CNAME` file for you. Then, at the registrar of the domain, add:
 
 | Type | Name | Value |
 |---|---|---|
 | `CNAME` | `www` | `kastriottafolli.github.io` |
 
-To make the bare `tafolliglass.net` redirect to `www` as well, add four `A`
-records on `@` pointing at `185.199.108.153`, `185.199.109.153`,
-`185.199.110.153` and `185.199.111.153` (and the matching `AAAA` records if
-your registrar supports them).
+For the bare domain as well, add four `A` records on `@` pointing at
+`185.199.108.153`, `185.199.109.153`, `185.199.110.153` and
+`185.199.111.153`.
 
 Until DNS resolves, the `*.github.io` URL redirects to the custom domain and
-will look broken — that is expected, not a deployment failure. Once the domain
-answers, tick **Enforce HTTPS** in Settings → Pages.
+will look broken — so only set the domain once the records are in place. Then
+tick **Enforce HTTPS**.
 
 ---
 
@@ -168,7 +168,6 @@ such as Formspree or Web3Forms: give `<form id="quoteForm">` an `action` and
 
 ## Before going live
 
-- [ ] Point the DNS of `www.tafolliglass.net` at GitHub Pages (see below).
 - [ ] Confirm the phone numbers and opening hours.
 - [ ] Check the warranty wording in the texts matches what the company offers.
 - [ ] Replace the indicative Ug / Rw / g values with supplier figures.
